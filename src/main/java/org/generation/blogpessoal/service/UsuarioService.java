@@ -1,5 +1,6 @@
 package org.generation.blogpessoal.service;
 
+import java.lang.StackWalker.Option;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
@@ -17,16 +18,20 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository repository;
 
-	public Usuario CadastrarUsuario(Usuario usuario) {
+	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
+
+		if(repository.findByUsuario(usuario.getUsuario()).isPresent()) 
+			return Optional.empty();
+		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 		String senhaEncoder = encoder.encode(usuario.getSenha());
 		usuario.setSenha(senhaEncoder);
 
-		return repository.save(usuario);
+		return Optional.ofNullable(repository.save(usuario));
 	}
 
-	public Optional<UsuarioLogin> Logar(Optional<UsuarioLogin> user) {
+	public Optional<UsuarioLogin> logar(Optional<UsuarioLogin> user) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		Optional<Usuario> usuario = repository.findByUsuario(user.get().getUsuario());
