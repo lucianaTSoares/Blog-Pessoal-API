@@ -19,13 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/postagens")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PostController {
     
     @Autowired
     private PostRepository repository;
 
-    // método GetAll que faz a requisição e retorna todos os posts
     @GetMapping
     public ResponseEntity<List<Post>> getAll() {
         return ResponseEntity.ok(repository.findAll());
