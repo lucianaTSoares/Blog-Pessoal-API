@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsuarioController {
 	
-	
+
 	private @Autowired UsuarioService usuarioService;
 
 	private @Autowired UsuarioRepository repository;

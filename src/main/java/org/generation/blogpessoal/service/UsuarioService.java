@@ -1,6 +1,5 @@
 package org.generation.blogpessoal.service;
 
-import java.lang.StackWalker.Option;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
