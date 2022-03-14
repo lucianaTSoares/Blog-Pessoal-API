@@ -20,7 +20,7 @@ public class Post {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_post;
+    private long id_post;
     
     @NotNull
     @Size(min = 5, max = 255)
@@ -37,11 +37,15 @@ public class Post {
     @JsonIgnoreProperties("postagem")
     private Tema tema;
 
-    public int getId_post() {
+    @ManyToOne
+    @JsonIgnoreProperties("postagem")
+    private Usuario usuario;
+
+    public long getId_post() {
         return id_post;
     }
 
-    public void setId_post(int id_post) {
+    public void setId_post(long id_post) {
         this.id_post = id_post;
     }
 
@@ -75,5 +79,13 @@ public class Post {
 
     public void setTema(Tema tema) {
         this.tema = tema;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

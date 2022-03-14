@@ -1,13 +1,20 @@
 package org.generation.blogpessoal.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -19,22 +26,26 @@ public class Usuario {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
+	@NotNull(message = "Nome é obrigatório!")
 	@Size (min = 2, max = 100)
 	private String nome;
 	
 	@Schema(example = "email@example.com")
-	@NotNull(message = "O atributo Usuário é obrigatório!")
-	@Email(message = "O atributo Usuário deve ser um email válido!")
+	@NotNull(message = "Usuário é obrigatório!")
+	@Email(message = "Usuário deve ser um email válido!")
 	@Size (min = 2, max = 100)
 	private String usuario;
 	
-	@NotNull
-	@Size (min = 5, max = 100)
+	@NotBlank(message = "Senha é obrigatório!")
+	@Size (min = 5, message = "A Senha deve ter no mínimo 5 caracteres")
 	private String senha;
 
-	@Size (max = 1000)
+	@Size(max = 5000)
 	private String foto;
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("usuario")
+	private List<Post> postagem;
 
 	public Usuario(long id, String nome, String usuario, String senha, String foto) {
 		this.id = id;
@@ -85,5 +96,12 @@ public class Usuario {
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
-	
+
+	public List<Post> getPostagem() {
+		return postagem;
+	}
+
+	public void setPostagem(List<Post> postagem) {
+		this.postagem = postagem;
+	}
 }
